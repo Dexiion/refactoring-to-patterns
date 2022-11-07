@@ -22,13 +22,18 @@ namespace RefactoringToPatterns.ComposeMethod
             if(!_readOnly) {
                 int newSize = _size + 1;
 
-                if(newSize > _elements.Length)
+                if(ElementDoesNotFit(newSize))
                 {
                     EnlargeElementList();
                 }
 
                 _elements[_size++] = element;
             }
+        }
+
+        private bool ElementDoesNotFit(int newSize)
+        {
+            return newSize > _elements.Length;
         }
 
         private void EnlargeElementList()
