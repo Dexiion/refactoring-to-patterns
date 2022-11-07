@@ -27,8 +27,13 @@ namespace RefactoringToPatterns.ComposeMethod
                     EnlargeElementList();
                 }
 
-                _elements[_size++] = element;
+                AddNewElement(element);
             }
+        }
+
+        private void AddNewElement(object element)
+        {
+            _elements[_size++] = element;
         }
 
         private bool ElementDoesNotFit(int newSize)
