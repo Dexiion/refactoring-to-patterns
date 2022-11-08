@@ -45,5 +45,11 @@ namespace RefactoringToPatterns.CreationMethods
         {
             return _tvChannels != null;
         }
+
+        public static ProductPackage CreateInternetVOIPAndTvPackage(string internetLabel, int telephoneNumber, string[] tvChannels)
+        {
+            var productPackage = new ProductPackage(internetLabel, telephoneNumber, tvChannels);
+            return productPackage;
+        }
     }
 }
