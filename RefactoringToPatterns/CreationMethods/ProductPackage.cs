@@ -63,5 +63,11 @@ namespace RefactoringToPatterns.CreationMethods
             var productPackage = new ProductPackage(internetLabel, telephoneNumber, null);
             return productPackage;
         }
+
+        public static ProductPackage CreateInternetPackage(string internetLabel)
+        {
+            var productPackage = new ProductPackage(internetLabel, null, null);
+            return productPackage;
+        }
     }
 }
