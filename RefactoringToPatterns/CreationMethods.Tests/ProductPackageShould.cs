@@ -65,5 +65,16 @@ namespace RefactoringToPatterns.CreationMethods.Tests
             Assert.True(productPackage.HasTv());
             Assert.True(productPackage.HasMobile());
         }
+        
+        [Fact]
+        public void CreateWithInternetVOIPMobileAndTv()
+        {
+            var productPackage = ProductPackage.CreateInternetVOIPMobileAndTvPackage("100MB", 91233788, 123456789, new[] { "LaLiga", "Estrenos" });
+
+            Assert.True(productPackage.HasInternet());
+            Assert.True(productPackage.HasVOIP());
+            Assert.True(productPackage.HasTv());
+            Assert.True(productPackage.HasMobile());
+        }
     }
 }

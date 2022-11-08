@@ -71,5 +71,11 @@ namespace RefactoringToPatterns.CreationMethods
             var productPackage = new ProductPackage(internetLabel, null, tvChannels, mobileNumber);
             return productPackage;
         }
+
+        public static ProductPackage CreateInternetVOIPMobileAndTvPackage(string internetLabel, int telephoneNumber, int mobileNumber, string[] tvChannels)
+        {
+            var productPackage = new ProductPackage(internetLabel, telephoneNumber, tvChannels, mobileNumber);
+            return productPackage;
+        }
     }
 }
