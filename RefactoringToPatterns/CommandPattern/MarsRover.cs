@@ -10,10 +10,6 @@ namespace RefactoringToPatterns.CommandPattern
         private readonly string _availableDirections = "NESW";
         internal readonly string[] _obstacles;
         internal bool _obstacleFound;
-        private readonly ProceedCommand proceedNorthCommand;
-        private readonly ProceedCommand proceedWestCommand;
-        private readonly ProceedCommand proceedSouthCommand;
-        private readonly ProceedCommand proceedEastCommand;
         private Dictionary<char, ProceedCommand> ProceedCommands;
 
         public MarsRover(int x, int y, char direction, string[] obstacles)
