@@ -2,14 +2,86 @@ using System.Linq;
 
 namespace RefactoringToPatterns.CommandPattern
 {
+    public class ProceedNorthCommand
+    {
+        private MarsRover _marsRover;
+
+        public ProceedNorthCommand(MarsRover marsRover)
+        {
+            _marsRover = marsRover;
+        }
+
+        public void ProceedNorth()
+        {
+            _marsRover._obstacleFound = _marsRover._obstacles.Contains($"{_marsRover._x}:{_marsRover._y - 1}");
+            // check if rover reached plateau limit or found an obstacle
+            _marsRover._y = _marsRover._y > 0 && !_marsRover._obstacleFound ? _marsRover._y -= 1 : _marsRover._y;
+        }
+    }
+
+    public class ProceedWestCommand
+    {
+        private MarsRover _marsRover;
+
+        public ProceedWestCommand(MarsRover marsRover)
+        {
+            _marsRover = marsRover;
+        }
+
+        public void ProceedWest()
+        {
+            _marsRover._obstacleFound = _marsRover._obstacles.Contains($"{_marsRover._x - 1}:{_marsRover._y}");
+            // check if rover reached plateau limit or found an obstacle
+            _marsRover._x = _marsRover._x > 0 && !_marsRover._obstacleFound ? _marsRover._x -= 1 : _marsRover._x;
+        }
+    }
+
+    public class ProceedSouthCommand
+    {
+        private MarsRover _marsRover;
+
+        public ProceedSouthCommand(MarsRover marsRover)
+        {
+            _marsRover = marsRover;
+        }
+
+        public void ProceedSouth()
+        {
+            _marsRover._obstacleFound = _marsRover._obstacles.Contains($"{_marsRover._x}:{_marsRover._y + 1}");
+            // check if rover reached plateau limit or found an obstacle
+            _marsRover._y = _marsRover._y < 9 && !_marsRover._obstacleFound ? _marsRover._y += 1 : _marsRover._y;
+        }
+    }
+
+    public class ProceedEastCommand
+    {
+        private MarsRover _marsRover;
+
+        public ProceedEastCommand(MarsRover marsRover)
+        {
+            _marsRover = marsRover;
+        }
+
+        public void ProceedEast()
+        {
+            _marsRover._obstacleFound = _marsRover._obstacles.Contains($"{_marsRover._x + 1}:{_marsRover._y}");
+            // check if rover reached plateau limit or found an obstacle
+            _marsRover._x = _marsRover._x < 9 && !_marsRover._obstacleFound ? _marsRover._x += 1 : _marsRover._x;
+        }
+    }
+
     public class MarsRover
     {
-        private int _x;
-        private int _y;
+        internal int _x;
+        internal int _y;
         private char _direction;
         private readonly string _availableDirections = "NESW";
-        private readonly string[] _obstacles;
-        private bool _obstacleFound;
+        internal readonly string[] _obstacles;
+        internal bool _obstacleFound;
+        private readonly ProceedNorthCommand proceedNorthCommand;
+        private readonly ProceedWestCommand proceedWestCommand;
+        private readonly ProceedSouthCommand proceedSouthCommand;
+        private readonly ProceedEastCommand proceedEastCommand;
 
         public MarsRover(int x, int y, char direction, string[] obstacles)
         {
@@ -17,6 +89,10 @@ namespace RefactoringToPatterns.CommandPattern
             _y = y;
             _direction = direction;
             _obstacles = obstacles;
+            proceedNorthCommand = new ProceedNorthCommand(this);
+            proceedWestCommand = new ProceedWestCommand(this);
+            proceedSouthCommand = new ProceedSouthCommand(this);
+            proceedEastCommand = new ProceedEastCommand(this);
         }
         
         public string GetState()
@@ -65,46 +141,18 @@ namespace RefactoringToPatterns.CommandPattern
             switch (_direction)
             {
                 case 'E':
-                    ProceedEast();
+                    proceedEastCommand.ProceedEast();
                     break;
                 case 'S':
-                    ProceedSouth();
+                    proceedSouthCommand.ProceedSouth();
                     break;
                 case 'W':
-                    ProceedWest();
+                    proceedWestCommand.ProceedWest();
                     break;
                 case 'N':
-                    ProceedNorth();
+                    proceedNorthCommand.ProceedNorth();
                     break;
             }
-        }
-
-        private void ProceedNorth()
-        {
-            _obstacleFound = _obstacles.Contains($"{_x}:{_y - 1}");
-            // check if rover reached plateau limit or found an obstacle
-            _y = _y > 0 && !_obstacleFound ? _y -= 1 : _y;
-        }
-
-        private void ProceedWest()
-        {
-            _obstacleFound = _obstacles.Contains($"{_x - 1}:{_y}");
-            // check if rover reached plateau limit or found an obstacle
-            _x = _x > 0 && !_obstacleFound ? _x -= 1 : _x;
-        }
-
-        private void ProceedSouth()
-        {
-            _obstacleFound = _obstacles.Contains($"{_x}:{_y + 1}");
-            // check if rover reached plateau limit or found an obstacle
-            _y = _y < 9 && !_obstacleFound ? _y += 1 : _y;
-        }
-
-        private void ProceedEast()
-        {
-            _obstacleFound = _obstacles.Contains($"{_x + 1}:{_y}");
-            // check if rover reached plateau limit or found an obstacle
-            _x = _x < 9 && !_obstacleFound ? _x += 1 : _x;
         }
     }
 }
