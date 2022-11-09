@@ -2,7 +2,12 @@
 
 namespace RefactoringToPatterns.CommandPattern
 {
-    public class ProceedEastCommand
+    public interface ProceedCommand
+    {
+        void Execute();
+    }
+
+    public class ProceedEastCommand : ProceedCommand
     {
         private MarsRover _marsRover;
 

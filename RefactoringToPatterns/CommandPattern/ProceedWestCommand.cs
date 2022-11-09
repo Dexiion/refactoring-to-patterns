@@ -2,7 +2,7 @@
 
 namespace RefactoringToPatterns.CommandPattern
 {
-    public class ProceedWestCommand
+    public class ProceedWestCommand : ProceedCommand
     {
         private MarsRover _marsRover;
 
