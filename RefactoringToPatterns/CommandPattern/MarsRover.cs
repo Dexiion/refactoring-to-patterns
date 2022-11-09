@@ -42,21 +42,35 @@ namespace RefactoringToPatterns.CommandPattern
         {
             if (command == 'M')
             {
-                Proceed();
+                MoveForward();
             }
             else if (command == 'L')
             {
-                var currentDirectionPosition = _availableDirections.IndexOf(_direction);
-                _direction = currentDirectionPosition != 0 ? _availableDirections[currentDirectionPosition - 1] : _availableDirections[3];
+                MoveLeft();
             }
             else if (command == 'R')
             {
-                var currentDirectionPosition = _availableDirections.IndexOf(_direction);
-                _direction = currentDirectionPosition != 3 ? _availableDirections[currentDirectionPosition + 1] : _availableDirections[0];
+                MoveRight();
             }
         }
 
-        private void Proceed()
+        private void MoveRight()
+        {
+            var currentDirectionPosition = _availableDirections.IndexOf(_direction);
+            _direction = currentDirectionPosition != 3
+                ? _availableDirections[currentDirectionPosition + 1]
+                : _availableDirections[0];
+        }
+
+        private void MoveLeft()
+        {
+            var currentDirectionPosition = _availableDirections.IndexOf(_direction);
+            _direction = currentDirectionPosition != 0
+                ? _availableDirections[currentDirectionPosition - 1]
+                : _availableDirections[3];
+        }
+
+        private void MoveForward()
         {
             ProceedCommands[_direction].Execute();
         }
