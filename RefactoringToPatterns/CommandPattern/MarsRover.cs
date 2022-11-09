@@ -71,16 +71,16 @@ namespace RefactoringToPatterns.CommandPattern
             switch (_direction)
             {
                 case 'E':
-                    proceedEastCommand.ProceedEast();
+                    proceedEastCommand.Execute();
                     break;
                 case 'S':
-                    proceedSouthCommand.ProceedSouth();
+                    proceedSouthCommand.Execute();
                     break;
                 case 'W':
-                    proceedWestCommand.ProceedWest();
+                    proceedWestCommand.Execute();
                     break;
                 case 'N':
-                    proceedNorthCommand.ProceedNorth();
+                    proceedNorthCommand.Execute();
                     break;
             }
         }
