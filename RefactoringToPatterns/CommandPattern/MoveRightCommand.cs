@@ -1,6 +1,11 @@
 ﻿namespace RefactoringToPatterns.CommandPattern
 {
-    public class MoveRightCommand
+    public interface MoveCommand
+    {
+        void Execute();
+    }
+
+    public class MoveRightCommand : MoveCommand
     {
         private MarsRover _marsRover;
 
@@ -9,7 +14,7 @@
             _marsRover = marsRover;
         }
 
-        public void MoveRight()
+        public void Execute()
         {
             var currentDirectionPosition = _marsRover._availableDirections.IndexOf(_marsRover._direction);
             _marsRover._direction = currentDirectionPosition != 3

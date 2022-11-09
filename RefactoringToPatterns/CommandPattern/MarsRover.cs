@@ -8,9 +8,9 @@ namespace RefactoringToPatterns.CommandPattern
         internal readonly string _availableDirections = "NESW";
         internal readonly string[] Obstacles;
         internal bool ObstacleFound;
-        private readonly MoveRightCommand moveRightCommand;
-        private readonly MoveLeftCommand moveLeftCommand;
-        private readonly MoveForwardCommand moveForwardCommand;
+        private readonly MoveCommand moveRightCommand;
+        private readonly MoveCommand moveLeftCommand;
+        private readonly MoveCommand moveForwardCommand;
 
         public MarsRover(int x, int y, char direction, string[] obstacles)
         {
@@ -40,15 +40,15 @@ namespace RefactoringToPatterns.CommandPattern
         {
             if (command == 'M')
             {
-                moveForwardCommand.MoveForward();
+                moveForwardCommand.Execute();
             }
             else if (command == 'L')
             {
-                moveLeftCommand.MoveLeft();
+                moveLeftCommand.Execute();
             }
             else if (command == 'R')
             {
-                moveRightCommand.MoveRight();
+                moveRightCommand.Execute();
             }
         }
     }

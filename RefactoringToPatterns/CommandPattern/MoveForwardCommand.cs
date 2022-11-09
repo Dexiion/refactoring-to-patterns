@@ -2,7 +2,7 @@
 
 namespace RefactoringToPatterns.CommandPattern
 {
-    public class MoveForwardCommand
+    public class MoveForwardCommand : MoveCommand
     {
         private MarsRover _marsRover;
         private readonly Dictionary<char, ProceedCommand> ProceedCommands;
@@ -17,7 +17,7 @@ namespace RefactoringToPatterns.CommandPattern
             };
         }
 
-        public void MoveForward()
+        public void Execute()
         {
             ProceedCommands[_marsRover._direction].Execute();
         }
