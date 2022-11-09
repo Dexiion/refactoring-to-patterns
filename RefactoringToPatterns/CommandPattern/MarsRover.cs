@@ -1,10 +1,12 @@
+using System.Collections.Generic;
+
 namespace RefactoringToPatterns.CommandPattern
 {
     public class MarsRover
     {
         internal int X;
         internal int Y;
-        internal char _direction;
+        internal char Direction;
         internal readonly string _availableDirections = "NESW";
         internal readonly string[] Obstacles;
         internal bool ObstacleFound;
@@ -16,7 +18,7 @@ namespace RefactoringToPatterns.CommandPattern
         {
             X = x;
             Y = y;
-            _direction = direction;
+            Direction = direction;
             Obstacles = obstacles;
             moveRightCommand = new MoveRightCommand(this);
             moveLeftCommand = new MoveLeftCommand(this);
@@ -25,7 +27,7 @@ namespace RefactoringToPatterns.CommandPattern
 
         public string GetState()
         {
-            return !ObstacleFound ? $"{X}:{Y}:{_direction}" : $"O:{X}:{Y}:{_direction}";
+            return !ObstacleFound ? $"{X}:{Y}:{Direction}" : $"O:{X}:{Y}:{Direction}";
         }
 
         public void Execute(string commands)

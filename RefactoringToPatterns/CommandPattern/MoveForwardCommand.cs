@@ -19,7 +19,7 @@ namespace RefactoringToPatterns.CommandPattern
 
         public void Execute()
         {
-            ProceedCommands[_marsRover._direction].Execute();
+            ProceedCommands[_marsRover.Direction].Execute();
         }
     }
 }
