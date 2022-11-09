@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace RefactoringToPatterns.CommandPattern
 {
     public class MarsRover
@@ -12,6 +14,7 @@ namespace RefactoringToPatterns.CommandPattern
         private readonly ProceedCommand proceedWestCommand;
         private readonly ProceedCommand proceedSouthCommand;
         private readonly ProceedCommand proceedEastCommand;
+        private Dictionary<char, ProceedCommand> ProceedCommands;
 
         public MarsRover(int x, int y, char direction, string[] obstacles)
         {
@@ -19,12 +22,13 @@ namespace RefactoringToPatterns.CommandPattern
             _y = y;
             _direction = direction;
             _obstacles = obstacles;
-            proceedNorthCommand = new ProceedNorthCommand(this);
-            proceedWestCommand = new ProceedWestCommand(this);
-            proceedSouthCommand = new ProceedSouthCommand(this);
-            proceedEastCommand = new ProceedEastCommand(this);
+            ProceedCommands = new Dictionary<char, ProceedCommand>
+            {
+                { 'N', new ProceedNorthCommand(this) }, { 'W', new ProceedWestCommand(this) },
+                { 'S', new ProceedSouthCommand(this) }, { 'E', new ProceedEastCommand(this) }
+            };
         }
-        
+
         public string GetState()
         {
             return !_obstacleFound ? $"{_x}:{_y}:{_direction}" : $"O:{_x}:{_y}:{_direction}";
@@ -32,31 +36,32 @@ namespace RefactoringToPatterns.CommandPattern
 
         public void Execute(string commands)
         {
-            foreach(char command in commands)
+            foreach (char command in commands)
             {
                 if (command == 'M')
                 {
                     Proceed();
                 }
-                else if(command == 'L')
+                else if (command == 'L')
                 {
                     // get new direction
                     var currentDirectionPosition = _availableDirections.IndexOf(_direction);
                     if (currentDirectionPosition != 0)
                     {
-                        _direction = _availableDirections[currentDirectionPosition-1];
+                        _direction = _availableDirections[currentDirectionPosition - 1];
                     }
                     else
                     {
                         _direction = _availableDirections[3];
                     }
-                } else if (command == 'R')
+                }
+                else if (command == 'R')
                 {
                     // get new direction
                     var currentDirectionPosition = _availableDirections.IndexOf(_direction);
                     if (currentDirectionPosition != 3)
                     {
-                        _direction = _availableDirections[currentDirectionPosition+1];
+                        _direction = _availableDirections[currentDirectionPosition + 1];
                     }
                     else
                     {
@@ -68,21 +73,7 @@ namespace RefactoringToPatterns.CommandPattern
 
         private void Proceed()
         {
-            switch (_direction)
-            {
-                case 'E':
-                    proceedEastCommand.Execute();
-                    break;
-                case 'S':
-                    proceedSouthCommand.Execute();
-                    break;
-                case 'W':
-                    proceedWestCommand.Execute();
-                    break;
-                case 'N':
-                    proceedNorthCommand.Execute();
-                    break;
-            }
+            ProceedCommands[_direction].Execute();
         }
     }
 }
