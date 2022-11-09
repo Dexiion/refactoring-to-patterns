@@ -13,8 +13,8 @@ namespace RefactoringToPatterns.CommandPattern
 
         public void Execute()
         {
-            _marsRover._obstacleFound = _marsRover._obstacles.Contains($"{_marsRover._x}:{_marsRover._y + 1}");
-            _marsRover._y = _marsRover._y < 9 && !_marsRover._obstacleFound ? _marsRover._y += 1 : _marsRover._y;
+            _marsRover.ObstacleFound = _marsRover.Obstacles.Contains($"{_marsRover.X}:{_marsRover.Y + 1}");
+            _marsRover.Y = _marsRover.Y < 9 && !_marsRover.ObstacleFound ? _marsRover.Y += 1 : _marsRover.Y;
         }
     }
 }

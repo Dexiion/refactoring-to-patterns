@@ -4,20 +4,20 @@ namespace RefactoringToPatterns.CommandPattern
 {
     public class MarsRover
     {
-        internal int _x;
-        internal int _y;
+        internal int X;
+        internal int Y;
         private char _direction;
         private readonly string _availableDirections = "NESW";
-        internal readonly string[] _obstacles;
-        internal bool _obstacleFound;
-        private Dictionary<char, ProceedCommand> ProceedCommands;
+        internal readonly string[] Obstacles;
+        internal bool ObstacleFound;
+        private readonly Dictionary<char, ProceedCommand> ProceedCommands;
 
         public MarsRover(int x, int y, char direction, string[] obstacles)
         {
-            _x = x;
-            _y = y;
+            X = x;
+            Y = y;
             _direction = direction;
-            _obstacles = obstacles;
+            Obstacles = obstacles;
             ProceedCommands = new Dictionary<char, ProceedCommand>
             {
                 { 'N', new ProceedNorthCommand(this) }, { 'W', new ProceedWestCommand(this) },
@@ -27,7 +27,7 @@ namespace RefactoringToPatterns.CommandPattern
 
         public string GetState()
         {
-            return !_obstacleFound ? $"{_x}:{_y}:{_direction}" : $"O:{_x}:{_y}:{_direction}";
+            return !ObstacleFound ? $"{X}:{Y}:{_direction}" : $"O:{X}:{Y}:{_direction}";
         }
 
         public void Execute(string commands)
