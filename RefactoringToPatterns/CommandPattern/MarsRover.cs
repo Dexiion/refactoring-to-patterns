@@ -2,15 +2,74 @@ using System.Collections.Generic;
 
 namespace RefactoringToPatterns.CommandPattern
 {
+    public class MoveRightCommand
+    {
+        private MarsRover _marsRover;
+
+        public MoveRightCommand(MarsRover marsRover)
+        {
+            _marsRover = marsRover;
+        }
+
+        public void MoveRight()
+        {
+            var currentDirectionPosition = _marsRover._availableDirections.IndexOf(_marsRover._direction);
+            _marsRover._direction = currentDirectionPosition != 3
+                ? _marsRover._availableDirections[currentDirectionPosition + 1]
+                : _marsRover._availableDirections[0];
+        }
+    }
+
+    public class MoveLeftCommand
+    {
+        private MarsRover _marsRover;
+
+        public MoveLeftCommand(MarsRover marsRover)
+        {
+            _marsRover = marsRover;
+        }
+
+        public void MoveLeft()
+        {
+            var currentDirectionPosition = _marsRover._availableDirections.IndexOf(_marsRover._direction);
+            _marsRover._direction = currentDirectionPosition != 0
+                ? _marsRover._availableDirections[currentDirectionPosition - 1]
+                : _marsRover._availableDirections[3];
+        }
+    }
+
+    public class MoveForwardCommand
+    {
+        private MarsRover _marsRover;
+        private readonly Dictionary<char, ProceedCommand> ProceedCommands;
+
+        public MoveForwardCommand(MarsRover marsRover)
+        {
+            _marsRover = marsRover;
+            ProceedCommands = new Dictionary<char, ProceedCommand>
+            {
+                { 'N', new ProceedNorthCommand(marsRover) }, { 'W', new ProceedWestCommand(marsRover) },
+                { 'S', new ProceedSouthCommand(marsRover) }, { 'E', new ProceedEastCommand(marsRover) }
+            };
+        }
+
+        public void MoveForward()
+        {
+            ProceedCommands[_marsRover._direction].Execute();
+        }
+    }
+
     public class MarsRover
     {
         internal int X;
         internal int Y;
-        private char _direction;
-        private readonly string _availableDirections = "NESW";
+        internal char _direction;
+        internal readonly string _availableDirections = "NESW";
         internal readonly string[] Obstacles;
         internal bool ObstacleFound;
-        private readonly Dictionary<char, ProceedCommand> ProceedCommands;
+        private readonly MoveRightCommand moveRightCommand;
+        private readonly MoveLeftCommand moveLeftCommand;
+        private readonly MoveForwardCommand moveForwardCommand;
 
         public MarsRover(int x, int y, char direction, string[] obstacles)
         {
@@ -18,11 +77,9 @@ namespace RefactoringToPatterns.CommandPattern
             Y = y;
             _direction = direction;
             Obstacles = obstacles;
-            ProceedCommands = new Dictionary<char, ProceedCommand>
-            {
-                { 'N', new ProceedNorthCommand(this) }, { 'W', new ProceedWestCommand(this) },
-                { 'S', new ProceedSouthCommand(this) }, { 'E', new ProceedEastCommand(this) }
-            };
+            moveRightCommand = new MoveRightCommand(this);
+            moveLeftCommand = new MoveLeftCommand(this);
+            moveForwardCommand = new MoveForwardCommand(this);
         }
 
         public string GetState()
@@ -42,37 +99,16 @@ namespace RefactoringToPatterns.CommandPattern
         {
             if (command == 'M')
             {
-                MoveForward();
+                moveForwardCommand.MoveForward();
             }
             else if (command == 'L')
             {
-                MoveLeft();
+                moveLeftCommand.MoveLeft();
             }
             else if (command == 'R')
             {
-                MoveRight();
+                moveRightCommand.MoveRight();
             }
-        }
-
-        private void MoveRight()
-        {
-            var currentDirectionPosition = _availableDirections.IndexOf(_direction);
-            _direction = currentDirectionPosition != 3
-                ? _availableDirections[currentDirectionPosition + 1]
-                : _availableDirections[0];
-        }
-
-        private void MoveLeft()
-        {
-            var currentDirectionPosition = _availableDirections.IndexOf(_direction);
-            _direction = currentDirectionPosition != 0
-                ? _availableDirections[currentDirectionPosition - 1]
-                : _availableDirections[3];
-        }
-
-        private void MoveForward()
-        {
-            ProceedCommands[_direction].Execute();
         }
     }
 }
