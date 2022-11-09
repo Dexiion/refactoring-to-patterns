@@ -30,29 +30,7 @@ namespace RefactoringToPatterns.CommandPattern
             {
                 if (command == 'M')
                 {
-                    switch (_direction)
-                    {
-                        case 'E':
-                            _obstacleFound = _obstacles.Contains($"{_x + 1}:{_y}");
-                            // check if rover reached plateau limit or found an obstacle
-                            _x = _x < 9 && !_obstacleFound ? _x += 1 : _x;
-                            break;
-                        case 'S':
-                            _obstacleFound = _obstacles.Contains($"{_x}:{_y + 1}");
-                            // check if rover reached plateau limit or found an obstacle
-                            _y = _y < 9 && !_obstacleFound ? _y += 1 : _y;
-                            break;
-                        case 'W':
-                            _obstacleFound = _obstacles.Contains($"{_x - 1}:{_y}");
-                            // check if rover reached plateau limit or found an obstacle
-                            _x = _x > 0 && !_obstacleFound ? _x -= 1 : _x;
-                            break;
-                        case 'N':
-                            _obstacleFound = _obstacles.Contains($"{_x}:{_y - 1}");
-                            // check if rover reached plateau limit or found an obstacle
-                            _y = _y > 0 && !_obstacleFound ? _y -= 1 : _y;
-                            break;
-                    }
+                    Proceed();
                 }
                 else if(command == 'L')
                 {
@@ -79,6 +57,33 @@ namespace RefactoringToPatterns.CommandPattern
                         _direction = _availableDirections[0];
                     }
                 }
+            }
+        }
+
+        private void Proceed()
+        {
+            switch (_direction)
+            {
+                case 'E':
+                    _obstacleFound = _obstacles.Contains($"{_x + 1}:{_y}");
+                    // check if rover reached plateau limit or found an obstacle
+                    _x = _x < 9 && !_obstacleFound ? _x += 1 : _x;
+                    break;
+                case 'S':
+                    _obstacleFound = _obstacles.Contains($"{_x}:{_y + 1}");
+                    // check if rover reached plateau limit or found an obstacle
+                    _y = _y < 9 && !_obstacleFound ? _y += 1 : _y;
+                    break;
+                case 'W':
+                    _obstacleFound = _obstacles.Contains($"{_x - 1}:{_y}");
+                    // check if rover reached plateau limit or found an obstacle
+                    _x = _x > 0 && !_obstacleFound ? _x -= 1 : _x;
+                    break;
+                case 'N':
+                    _obstacleFound = _obstacles.Contains($"{_x}:{_y - 1}");
+                    // check if rover reached plateau limit or found an obstacle
+                    _y = _y > 0 && !_obstacleFound ? _y -= 1 : _y;
+                    break;
             }
         }
     }
