@@ -34,36 +34,25 @@ namespace RefactoringToPatterns.CommandPattern
         {
             foreach (char command in commands)
             {
-                if (command == 'M')
-                {
-                    Proceed();
-                }
-                else if (command == 'L')
-                {
-                    // get new direction
-                    var currentDirectionPosition = _availableDirections.IndexOf(_direction);
-                    if (currentDirectionPosition != 0)
-                    {
-                        _direction = _availableDirections[currentDirectionPosition - 1];
-                    }
-                    else
-                    {
-                        _direction = _availableDirections[3];
-                    }
-                }
-                else if (command == 'R')
-                {
-                    // get new direction
-                    var currentDirectionPosition = _availableDirections.IndexOf(_direction);
-                    if (currentDirectionPosition != 3)
-                    {
-                        _direction = _availableDirections[currentDirectionPosition + 1];
-                    }
-                    else
-                    {
-                        _direction = _availableDirections[0];
-                    }
-                }
+                Move(command);
+            }
+        }
+
+        private void Move(char command)
+        {
+            if (command == 'M')
+            {
+                Proceed();
+            }
+            else if (command == 'L')
+            {
+                var currentDirectionPosition = _availableDirections.IndexOf(_direction);
+                _direction = currentDirectionPosition != 0 ? _availableDirections[currentDirectionPosition - 1] : _availableDirections[3];
+            }
+            else if (command == 'R')
+            {
+                var currentDirectionPosition = _availableDirections.IndexOf(_direction);
+                _direction = currentDirectionPosition != 3 ? _availableDirections[currentDirectionPosition + 1] : _availableDirections[0];
             }
         }
 
